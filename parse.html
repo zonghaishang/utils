@@ -1,0 +1,66 @@
+﻿
+<html>
+<head>
+	<script>
+	   var logstr="2014-06-19 17:14:55.021,client,0ad1348f14031692950211004,0.1,com.alipay.cloudenginetest.services.SofaApiUidGeneratorRzoneTrService:1.0,service_method_uid,TR,SYNC,10.209.72.102:12200,serverone,,,,48,00,1476B,372B,64ms,22ms,0ms,42ms,AnonymousIoService-7,sofarouter>testurl>ConfigServer>vip>zproxy,50,T,,zue:l;ztg:r,mark=T&uid=a2&";
+	   
+
+	function ParseRpc(){
+	 var radios = document.getElementsByName("type");
+     for (var i = 0; i < radios.length; i++) {
+          var radio = radios[i];
+          if (radio.checked) {           
+              var rpcValue= radio.value;
+			  if (rpcValue =="client"){
+			     ParseClientRpc();
+			  }else if (rpcValue =="server"){
+			     ParseServerRpc();
+			  }
+          }
+     }
+	}
+	function ParseClientRpc(){
+	   var logstr =  document.getElementById("logvalue").value;
+	   var logtitle=new Array("日志打印时间","当前应用名","TraceId","RpcId","服务名","方法名","协议","调用方式","目标地址","目标系统名","目标Zone","目标IDC"
+	                      ,"目标City","uid","结果码（00=成功/01=业务异常/02=RPC逻辑错误/03=超时失败/04=路由失败）","请求大小","响应大小","调用耗时","链接建立耗时","请求序列化耗时",
+	                       "超时参考耗时","当前线程名","路由记录","弹性数据位","是否需要弹性","转发的服务名称","系统穿透数据","穿透数据");
+	   var logArray =logstr.split(",");
+       var innerhtml = "";
+	   for (var i=0;i<logArray.length;i++)
+	   {
+	      innerhtml=innerhtml+"<b>"+logtitle[i] +"</b>"+":"+logArray[i]+"<br>";
+	   }
+	 
+	   var  element =  document.getElementById("logshow");
+	   element.innerHTML =innerhtml;
+	}  
+	
+	function ParseServerRpc(){
+	  var logstr =  document.getElementById("logvalue").value;
+	  var logtitle=new Array("日志打印时间","当前应用名","TraceId","RpcId","服务名","方法名","协议","调用方式","调用者 URL","调用者应用名","调用者 Zone","调用者 IDC","请求处理耗时",
+                            "服务端响应序列化耗时","当前线程名","结果码","转发的服务名称","是否转发的处理","系统穿透数据","穿透数据");
+	  var logArray =logstr.split(",");
+      var innerhtml = "";
+	  for (var i=0;i<logArray.length;i++)
+	  {
+	      innerhtml=innerhtml+"<b>"+logtitle[i] +"</b>"+":"+logArray[i]+"<br>";
+	  }
+
+	   var  element =  document.getElementById("logshow");
+	   element.innerHTML =innerhtml;
+	}
+	</script>
+
+</head>
+<body>
+<table>
+   <tr>
+	<td><input type="radio" name="type" value="client" onclick="ParseRpc()"/> RPC Client <input type="radio" name="type" value="server" onclick="ParseRpc()"/> RPC Server</td>
+	<td><textarea name ="logvalue" id ="logvalue" rows="10" cols="150"></textarea></td>
+   </tr>
+   <tr  >
+     <td colspan="2" id="logshow"> </td>
+   <tr>
+</table>
+</body>
+</html>
